@@ -8,7 +8,7 @@ window.fill((255, 0, 0))
 pygame.draw.rect(window, (0, 0, 210),
                  [100, 100, 400, 100], 2)
 run = True
-run = False
+
 while run is True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -16,4 +16,4 @@ while run is True:
     pygame.display.update()
 pygame.quit()
 
-https://prod.liveshare.vsengsaas.visualstudio.com/join?A145F103797A24B3A23995B73CB072622E4B
+# https://prod.liveshare.vsengsaas.visualstudio.com/join?E84A55C82187FFA656E39AEB8E92EE24F23A
