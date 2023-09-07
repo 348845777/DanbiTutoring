@@ -8,6 +8,7 @@ window.fill((255, 0, 0))
 pygame.draw.rect(window, (0, 0, 250),
                  [100, 100, 400, 100], 2)
 run = True
+run = False
 while run is True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
