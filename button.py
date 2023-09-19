@@ -1,2 +1,2 @@
-class Button(): 
-    def __init__
+import pygame
+

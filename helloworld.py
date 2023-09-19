@@ -2,9 +2,16 @@ import pygame
 from screeninfo import get_monitors
 import random
 from pygame.locals import *
-import button
+# import button
+
+#TODO put button in another file
+#TODO figure out what fps and fpsclock is for
+#TODO figure out what display flip is for
+#TODO don't make everything global
 
 pygame.init()
+fps = 60
+fpsClock = pygame.time.Clock()
 window=pygame.display.set_mode() # Create Screen (width x height)
 window.fill((0, 0, 0))
 pygame.font.init()
@@ -29,7 +36,53 @@ text_surface = my_font.render(str(countdownTimer), False, (255,255,0))
 clickobject = my_font.render(str(clickCounter), False, (255,255,0))
 print()
 
+objects = []
 
+class Button(): 
+    def __init__(self, x, y, width, height, buttonText='Button', onclickFunction=None, onePress=False):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.onclickFunction = onclickFunction
+        self.onePress = onePress
+        self.alreadyPressed = False
+        self.fillColors = {
+            'normal': '#ffffff',
+            'hover': '#666666',
+            'pressed': '#333333',
+        }
+        
+        self.buttonSurface = pygame.Surface((self.width, self.height))
+        self.buttonRect = pygame.Rect(self.x, self.y, self.width, self.height)
+
+        self.buttonSurf = my_font.render(buttonText, True, (20, 20, 20))
+
+        self.alreadyPressed = False
+
+        objects.append(self)
+
+    def process(self):
+        mousePos = pygame.mouse.get_pos()
+        self.buttonSurface.fill(self.fillColors['normal'])
+
+        if self.buttonRect.collidepoint(mousePos):
+            self.buttonSurface.fill(self.fillColors['hover'])
+            if pygame.mouse.get_pressed(num_buttons=3)[0]:
+                self.buttonSurface.fill(self.fillColors['pressed'])
+                if self.onePress:
+                    self.onclickFunction()
+                elif not self.alreadyPressed:
+                    self.onclickFunction()
+                    self.alreadyPressed = True
+            else:
+                self.alreadyPressed = False
+
+        self.buttonSurface.blit(self.buttonSurf, [
+            self.buttonRect.width/2 - self.buttonSurf.get_rect().width/2,
+            self.buttonRect.height/2 - self.buttonSurf.get_rect().height/2
+        ])
+        window.blit(self.buttonSurface, self.buttonRect)
 
 def drawThings(_window):
     global randx, randy, text_surface, rect, squareDimension, clickobject
@@ -62,12 +115,28 @@ def checkEvent(event, window):
     if event.type == pygame.QUIT:
         run = False
 
+def myFunction():
+    global countdownTimer, gameComplete, clickCounter
+    print('Button pressed')
+    gameComplete = False
+    clickCounter = 0
+    countdownTimer = 10
+
+customButton = Button(30, 30, 400, 100, 'Button One (onePress)', myFunction)
+customButton1 = Button(30, 140, 400, 100, 'Button Two (multiPress)', myFunction, True)
+
 while run is True:
     window.fill((0, 0, 0))
     for event in pygame.event.get():
-        
         checkEvent(event, window)
+
+        
     drawThings(window)
+    for object in objects:
+        object.process()
+
+    pygame.display.flip()
+    fpsClock.tick(fps)
     pygame.display.update()
 pygame.quit()
 
