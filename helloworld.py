@@ -15,7 +15,7 @@ fpsClock = pygame.time.Clock()
 window=pygame.display.set_mode() # Create Screen (width x height)
 window.fill((0, 0, 0))
 pygame.font.init()
-my_font = pygame.font.SysFont('Comic Sans MS', 30)
+
 
 squareDimension = 100
 
