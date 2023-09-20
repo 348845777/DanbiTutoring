@@ -11,33 +11,24 @@ from gameObjects import Square, Text
 #TODO don't make everything global
 
 pygame.init()
+
 fps = 60
 fpsClock = pygame.time.Clock()
 window=pygame.display.set_mode() # Create Screen (width x height)
-window.fill((0, 0, 0))
+
 pygame.font.init()
 my_font = pygame.font.SysFont('Comic Sans MS', 30)
 
 squareDimension = 100
-
 monitors = get_monitors() 
 randx = random.randint(0, monitors[0].width - squareDimension)
-
 randy = random.randint(0, monitors[0].height - squareDimension)
 
-pygame.time.set_timer(pygame.USEREVENT, 1000)
-
-rect = pygame.draw.rect(window, (0, 0, 210),
-                 [randx, randy, squareDimension, squareDimension], 2)
 clickCounter = 0
 countdownTimer = 10
-gameComplete = False
-clickobject = my_font.render(str(clickCounter), False, (255,255,0))
 
 gameVariables = GameVariables(clickCounter, countdownTimer)
-gameInstance = GameInstance(window, my_font, gameComplete, gameVariables)
-
-
+gameInstance = GameInstance(window, my_font, gameVariables)
 
 gameObjects = []
 gameSquare = Square(gameInstance, randx, randy, squareDimension)
@@ -83,10 +74,8 @@ def resetGame(instance):
     countdownText.text = instance.gameVariables.countdownTimer
 
 buttons = []
-customButton = Button(gameInstance, 30, 30, 400, 100, 'Button One (onePress)', resetGame)
-customButton1 = Button(gameInstance, 30, 140, 400, 100, 'Button Two (multiPress)', resetGame, True)
+customButton = Button(gameInstance, 30, 30, 400, 100, 'Reset Game', resetGame)
 buttons.append(customButton)
-buttons.append(customButton1)
 
 while True:
     window.fill((0, 0, 0))

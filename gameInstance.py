@@ -1,6 +1,6 @@
 class GameInstance():
-    def __init__(self, window, defaultFont, gameComplete, gameVariables):
-        self.gameComplete = gameComplete
+    def __init__(self, window, defaultFont, gameVariables):
+        self.gameComplete = False
         self.gameVariables = gameVariables
         self.window = window
         self.defaultFont = defaultFont
