@@ -11,7 +11,7 @@ from gameObjects import Square, Text
 #TODO don't make everything global
 
 pygame.init()
-
+pygame.time.set_timer(pygame.USEREVENT, 1000)
 fps = 60
 fpsClock = pygame.time.Clock()
 window=pygame.display.set_mode() # Create Screen (width x height)
@@ -57,8 +57,11 @@ def checkUserInput(event, instance):
 
 def checkCounterEvent(event, instance):
     global countdownText
+    
     if not instance.gameComplete:
+       print('insideCounterEvent')
        if event.type == pygame.USEREVENT: 
+            
             if instance.gameVariables.countdownTimer == 0: 
                 instance.gameComplete = True
             else:
@@ -72,6 +75,7 @@ def resetGame(instance):
     instance.gameVariables.clickCounter = 0
     instance.gameVariables.countdownTimer = 10
     countdownText.text = instance.gameVariables.countdownTimer
+    clickCounterText.text = instance.gameVariables.clickCounter
 
 buttons = []
 customButton = Button(gameInstance, 30, 30, 400, 100, 'Reset Game', resetGame)
